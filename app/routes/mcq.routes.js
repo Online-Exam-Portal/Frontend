@@ -11,7 +11,7 @@ module.exports = app => {
    // app.get("/customers/:customerId", customers.findOne);
   
     // Update a Customer with customerId
-    app.put("/mcq/:quesID", mcq.update);
+    app.put("/mcq/:question_id", mcq.update);
   
     // Delete a Customer with customerId
     //app.delete("/customers/:customerId", customers.delete);

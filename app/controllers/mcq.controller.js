@@ -4,50 +4,51 @@ const MCQ = require("../models/mcq.model.js");
 exports.create = (req, res) => {
     
     if (!req.body) {
-        res.status(400).send({
-          message: "Content can not be empty!"
+      res.status(400).send({
+        message: "Content can not be empty!"
+      });
+    }
+    
+    // Create a Customer
+    const newMCQ = new MCQ({
+      question : req.body.question,
+      optionA : req.body.optionA,
+      optionB : req.body.optionB,
+      optionC : req.body.optionC,
+      optionD : req.body.optionD,
+      correct_option : req.body.correct_option,
+    });
+    
+    // Save Customer in the database
+    MCQ.create(newMCQ, (err, data) => {
+      if(err)
+        res.status(500).send({
+          message: err.message || "Some error occurred while creating the MCQ."
         });
-      }
-    
-      // Create a Customer
-      const MCQ = new MCQ({
-        question : req.body.question,
-        optionA : req.body.optionA,
-        optionB : req.body.optionB,
-        optionC : req.body.optionC,
-        optionD : req.body.optionD,
-        correct_option : req.body.correct_option,
-      });
-    
-      // Save Customer in the database
-      MCQ.create(mcq, (err, data) => {
-        if (err)
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while creating the Customer."
-          });
-        else res.send(data);
-      });
+      else res.send(data);
+    });
+
 };
 
-// Retrieve all Customers from the database.
+// Retrieve all mcqs from the database.
 exports.findAll = (req, res) => {
 
-    MCQ.getAll((err, data) => {
-        if (err)
+    MCQ.getAll((err, data) => { //here, this function is passed and is called as result(err, data) in model
+        if(err)
           res.status(500).send({
-            message:
-              err.message || "Some error occurred while retrieving customers."
+            message: err.message || "Some error occurred while retrieving MCQs."
           });
         else res.send(data);
-      });
+    });
   
 };
 
-// Find a single Customer with a customerId
+// Find a single 
 /*exports.findOne = (req, res) => {
   
 };*/
+
+
 
 // Update a Customer identified by the customerId in the request
 exports.update = (req, res) => {
@@ -59,17 +60,17 @@ exports.update = (req, res) => {
   }
 
   MCQ.updateById(
-    req.params.quesID,
+    req.params.question_id,
     new Customer(req.body),
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Customer with id ${req.params.quesID}.`
+            message: `Not found MCQ with id ${req.params.question_id}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating Customer with id " + req.params.quesID
+            message: "Error updating MCQ with id " + req.params.question_id
           });
         }
       } else res.send(data);
