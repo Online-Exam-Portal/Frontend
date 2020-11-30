@@ -9,7 +9,9 @@ const MCQ = function(mcq) {
   this.optionC = mcq.optionC;
   this.optionD = mcq.optionD;
   this.correct_option = mcq.correct_option;
+  this.test_id = mcq.test_id;
 };
+
 
 
 MCQ.getAll = (result) => {
@@ -42,34 +44,13 @@ MCQ.create = (newMCQ, result) => {
 };
 
 
-/*not required as of now
-MCQ.findById = (ID, result) => {
-
-  sql.query(`SELECT * FROM mcq WHERE question_id = ${ID}`, (err, res) => {
-    if (err) {
-      console.log("Find by Id Error: ", err);
-      result(err, null);
-      return;
-    }
-    if (res.length) {
-      console.log("Found the specified question: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-    // not found Customer with the id
-    //         error               data
-    result({ kind: "Not found" }, null);
-  });
-
-};*/
-
-
-
-/*
 MCQ.updateById = (id, mcq, result) => {
+
+  console.log("ID" + id)
+
   sql.query(
     "UPDATE mcq SET question = ?, optionA = ?, optionB = ?, optionC = ?, optionD = ?, correct_option = ?  WHERE question_id = ?",
-    [mcq.question, mcq.optionA, mcq.optionB, mcq.optionC, mcq.optionD, mcq.correct_option],
+    [mcq.question, mcq.optionA, mcq.optionB, mcq.optionC, mcq.optionD, mcq.correct_option, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -82,11 +63,32 @@ MCQ.updateById = (id, mcq, result) => {
         result({ kind: "not_found" }, null);
         return;
       }
+      //console.log("updated customer: ", { id: id, ...customer });
+      //result(null, { id: id, ...customer });
 
-      console.log("updated mcq: ", { question_id: question_id, ...mcq });
-      result(null, { question_id: question_id, ...mcq });
+      console.log("updated mcq: ", { id: question_id, ...mcq });
+      result(null, { id: question_id, ...mcq });
     }
   );
 };
-*/
+
+MCQ.remove = (id, result) => {
+  sql.query("DELETE FROM mcq WHERE question_id = ?", id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("deleted question with id: ", id);
+    result(null, res);
+  });
+};
+
 module.exports = MCQ;

@@ -17,6 +17,7 @@ exports.create = (req, res) => {
       optionC : req.body.optionC,
       optionD : req.body.optionD,
       correct_option : req.body.correct_option,
+      test_id : req.body.test_id,
     });
     
     // Save Customer in the database
@@ -43,10 +44,6 @@ exports.findAll = (req, res) => {
   
 };
 
-// Find a single 
-/*exports.findOne = (req, res) => {
-  
-};*/
 
 
 
@@ -61,7 +58,7 @@ exports.update = (req, res) => {
 
   MCQ.updateById(
     req.params.question_id,
-    new Customer(req.body),
+    new MCQ(req.body),
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
@@ -76,4 +73,25 @@ exports.update = (req, res) => {
       } else res.send(data);
     }
   );
+  
 };
+
+exports.delete = (req, res) => {
+
+  MCQ.remove(req.params.question_id, (err, data) => {
+
+    console.log(req.params.question_id)
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found mcq with id ${req.params.question_id}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete mcq with id " + req.params.question_id
+        });
+      }
+    } else res.send({ message: `mcq was deleted successfully!` });
+  });
+};
+

@@ -1,11 +1,12 @@
 module.exports = app => {
     const mcq = require("../controllers/mcq.controller.js");
-  
-    // Create a new Customer
+    const tests = require("../controllers/tests.controller.js");
+    // Create a new 
     app.post("/mcq", mcq.create);
   
-    // Retrieve all Customers
+    // Retrieve all 
     app.get("/mcq", mcq.findAll);
+    app.get("/tests", tests.findAllTests);
   
     // Retrieve a single Customer with customerId
    // app.get("/customers/:customerId", customers.findOne);
@@ -14,7 +15,7 @@ module.exports = app => {
     app.put("/mcq/:question_id", mcq.update);
   
     // Delete a Customer with customerId
-    //app.delete("/customers/:customerId", customers.delete);
+    app.delete("/mcq/:question_id", mcq.delete);
   
     // Create a new Customer
     //app.delete("/customers", customers.deleteAll);
