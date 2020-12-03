@@ -1,6 +1,6 @@
 const sql = require("./db.js");
 
-exports.register = async function(req,res){
+exports.result = async function(req,res){
   
         var result={
             "result_id": req.body.result_id,
