@@ -1,6 +1,6 @@
 const MCQ = require("../models/mcq.model.js");
 
-// Create and Save a new Customer
+// Create and Save a new MCQ
 exports.create = (req, res) => {
     
     if (!req.body) {
@@ -9,7 +9,7 @@ exports.create = (req, res) => {
       });
     }
     
-    // Create a Customer
+    // Create a MCQ
     const newMCQ = new MCQ({
       question : req.body.question,
       optionA : req.body.optionA,
@@ -20,7 +20,7 @@ exports.create = (req, res) => {
       test_id : req.body.test_id,
     });
     
-    // Save Customer in the database
+    // Save MCQ in the database
     MCQ.create(newMCQ, (err, data) => {
       if(err)
         res.status(500).send({

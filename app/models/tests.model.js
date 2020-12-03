@@ -18,4 +18,19 @@ const TESTS = function(tests) {
     });
   }
 
+  TESTS.create = (newTEST, result) => {
+    //INSERT INTO customers (name, address) VALUES ('Company Inc', 'Highway 37')"
+    sql.query("INSERT INTO tests SET ?", newTEST, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+  
+      console.log("Created a new test: ", { test_id: res.insertId, ...newTEST });
+      result(null, { test_id: res.insertId, ...newTEST });
+    });
+  };
+
+
   module.exports = TESTS;
