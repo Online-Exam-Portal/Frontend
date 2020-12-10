@@ -3,6 +3,7 @@ const sql = require("./db.js");
 
 // constructor
 const MCQ = function(mcq) {
+  this.question_id = mcq.question_id;
   this.question = mcq.question;
   this.optionA = mcq.optionA;
   this.optionB = mcq.optionB;
@@ -14,10 +15,11 @@ const MCQ = function(mcq) {
 
 
 
+
 MCQ.getAll = (result) => {
 
   sql.query("SELECT * FROM mcq", (err, res) => {
-    
+
     if (err) {
       console.log("Error get all: ", err);
       result(null, err);
@@ -66,8 +68,8 @@ MCQ.updateById = (id, mcq, result) => {
       //console.log("updated customer: ", { id: id, ...customer });
       //result(null, { id: id, ...customer });
 
-      console.log("updated mcq: ", { id: question_id, ...mcq });
-      result(null, { id: question_id, ...mcq });
+      console.log("updated mcq: ", { id: id, ...mcq });
+      result(null, { id: id, ...mcq });
     }
   );
 };

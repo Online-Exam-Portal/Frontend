@@ -24,7 +24,7 @@ exports.register = async function(req,res){
             } else {
               res.send({
                 "code":200,
-                "success":"user registered sucessfully"
+                "msg":"user registered sucessfully"
                   });
               }
           });
@@ -46,7 +46,7 @@ exports.register = async function(req,res){
             } else {
               res.send({
                 "code":200,
-                "success":"user registered sucessfully"
+                "msg":"user registered sucessfully"
                   });
               }
           });

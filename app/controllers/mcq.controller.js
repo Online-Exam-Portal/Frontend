@@ -1,7 +1,29 @@
 const MCQ = require("../models/mcq.model.js");
+const sql = require("../models/db");
+
+async function getID() {
+
+  var id = undefined;
+
+  sql.query("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'quiz' AND TABLE_NAME = 'mcq' ", (err, res) => {
+
+    if (err) {
+      console.log("Error result: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("next : ", parseInt(res[0]["AUTO_INCREMENT"]));
+    id = parseInt(res[0]["AUTO_INCREMENT"]);
+    console.log("typeof : " + typeof(id))
+
+  });
+
+  return id;
+
+}
 
 // Create and Save a new MCQ
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     
     if (!req.body) {
       res.status(400).send({
@@ -9,8 +31,11 @@ exports.create = (req, res) => {
       });
     }
     
+    const id = await getID();
+
     // Create a MCQ
     const newMCQ = new MCQ({
+      question_id : id,
       question : req.body.question,
       optionA : req.body.optionA,
       optionB : req.body.optionB,
