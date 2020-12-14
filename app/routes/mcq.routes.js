@@ -6,6 +6,7 @@ module.exports = app => {
     const result = require("../models/result.model");
     const emp = require('../models/employee');
     const report = require('../models/report.model');
+    const status = require('../models/status.model');
 
     // Create a new 
     app.post("/mcq", mcq.create);
@@ -19,6 +20,7 @@ module.exports = app => {
     app.get("/mcq", mcq.findAll);
     app.get("/tests", tests.findAllTests);
     app.get("/report", report.getReport);
+    app.get("/status", status.getStatus);
 
     // Retrieve a single Customer with customerId
    // app.get("/customers/:customerId", customers.findOne);
